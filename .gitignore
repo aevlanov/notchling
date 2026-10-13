@@ -1,0 +1,7 @@
+build/
+build.log
+.rebuild
+.DS_Store
+ax-dumps*/
+.devmode
+.diag/
