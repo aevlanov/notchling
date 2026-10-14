@@ -37,7 +37,17 @@
 
 Проверить можно самостоятельно: `nm -u ~/Applications/Notchling.app/Contents/MacOS/Notchling | grep -i -E "URLSession|socket|connect"` ничего не выведет. Ещё можно поставить LuLu или Little Snitch.
 
-## Установка
+## Скачать
+
+**[⬇ Скачать последнюю версию](https://github.com/aevlanov/notchling/releases/latest)**: macOS 14+, Apple Silicon и Intel.
+
+1. Распакуй **Notchling-x.y.z.zip** и перетащи **Notchling.app** в **Программы**.
+2. Открой. macOS скажет, что не может проверить разработчика: приложение не нотаризовано, для этого нужен платный аккаунт разработчика Apple. Открой **Системные настройки → Конфиденциальность и безопасность**, пролистай вниз и нажми **«Всё равно открыть»**.
+3. Включи Notchling в **Системные настройки → Конфиденциальность и безопасность → Универсальный доступ** и перезапусти его.
+
+Каждый релиз собирается на Маке самого GitHub из этого исходного кода ([workflow](.github/workflows/release.yml)), с той же проверкой на отсутствие сети.
+
+## Сборка из исходников
 
 Нужен macOS 14+ и Command Line Tools (Xcode не нужен):
 
@@ -87,9 +97,12 @@ tools/ax-dump.swift                снимки дерева Accessibility ок�
 tools/make_sounds.py               генерация звуков (numpy)
 tools/preview/wisp.html            превью огоньков в браузере
 dev.sh                             пересборка по файлу-сигналу .rebuild
+release.sh                         универсальная сборка релиза → dist/Notchling-x.y.z.zip
 ```
 
 Если создать в папке проекта файл `.devmode`, `build.sh` будет включать подробный журнал в `.diag/`.
+
+Новый релиз: `git tag v0.1.1 && git push origin v0.1.1`. GitHub Actions соберёт zip и выложит его на странице Releases.
 
 ## Благодарности
 

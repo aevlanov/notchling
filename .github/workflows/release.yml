@@ -1,0 +1,38 @@
+name: Release
+
+# Новая версия: git tag v0.1.0 && git push origin v0.1.0
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (e.g. 0.1.0)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version
+        id: v
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then V="${{ github.event.inputs.version }}"; else V="${GITHUB_REF_NAME#v}"; fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
+      - name: Build
+        run: bash release.sh "${{ steps.v.outputs.version }}"
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V="${{ steps.v.outputs.version }}"
+          gh release create "v$V" dist/Notchling-$V.zip dist/Notchling-$V.zip.sha256 \
+            --title "Notchling $V" --notes-file RELEASE_NOTES.md \
+            || gh release upload "v$V" dist/Notchling-$V.zip dist/Notchling-$V.zip.sha256 --clobber

@@ -5,3 +5,4 @@ build.log
 ax-dumps*/
 .devmode
 .diag/
+dist/

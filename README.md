@@ -37,7 +37,17 @@ It shows what Claude is doing while it answers. When Claude asks for permission,
 
 Check it yourself: `nm -u ~/Applications/Notchling.app/Contents/MacOS/Notchling | grep -i -E "URLSession|socket|connect"` prints nothing. Or run LuLu / Little Snitch.
 
-## Install
+## Download
+
+**[⬇ Download the latest release](https://github.com/aevlanov/notchling/releases/latest)**: macOS 14+, Apple Silicon and Intel.
+
+1. Unzip **Notchling-x.y.z.zip** and drag **Notchling.app** to **Applications**.
+2. Open it. macOS will say it can't verify the developer: the app isn't notarized (that needs a paid Apple developer account). Go to **System Settings → Privacy & Security**, scroll down and click **Open Anyway**.
+3. Enable Notchling in **System Settings → Privacy & Security → Accessibility**, then relaunch it.
+
+Every release is built on GitHub's own Mac from this source code ([workflow](.github/workflows/release.yml)), with the same no-network check.
+
+## Build from source
 
 You need macOS 14+ and the Command Line Tools (no Xcode required):
 
@@ -87,9 +97,12 @@ tools/ax-dump.swift                snapshots of Claude's Accessibility tree
 tools/make_sounds.py               sound generator (numpy)
 tools/preview/wisp.html            flame preview in a browser
 dev.sh                             rebuilds when a .rebuild trigger file appears
+release.sh                         universal release build → dist/Notchling-x.y.z.zip
 ```
 
 Create a `.devmode` file in the project folder and `build.sh` will turn on a detailed log in `.diag/`.
+
+New release: `git tag v0.1.1 && git push origin v0.1.1`. GitHub Actions builds the zip and publishes it on the Releases page.
 
 ## Credits
 
