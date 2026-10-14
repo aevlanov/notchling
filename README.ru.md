@@ -102,7 +102,7 @@ release.sh                         универсальная сборка ре�
 
 Если создать в папке проекта файл `.devmode`, `build.sh` будет включать подробный журнал в `.diag/`.
 
-Новый релиз: `git tag v0.1.1 && git push origin v0.1.1`. GitHub Actions соберёт zip и выложит его на странице Releases.
+Новый релиз: подними `CFBundleShortVersionString` в `Info.plist` и запушь в ветку `release` (`git push origin main:release`) или поставь тег `v0.1.1`. GitHub Actions соберёт zip и выложит его на странице Releases.
 
 ## Благодарности
 

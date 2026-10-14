@@ -102,7 +102,7 @@ release.sh                         universal release build → dist/Notchling-x.
 
 Create a `.devmode` file in the project folder and `build.sh` will turn on a detailed log in `.diag/`.
 
-New release: `git tag v0.1.1 && git push origin v0.1.1`. GitHub Actions builds the zip and publishes it on the Releases page.
+New release: bump `CFBundleShortVersionString` in `Info.plist` and push to the `release` branch (`git push origin main:release`), or push a `v0.1.1` tag. GitHub Actions builds the zip and publishes it on the Releases page.
 
 ## Credits
 

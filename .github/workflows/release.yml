@@ -1,8 +1,10 @@
 name: Release
 
-# Новая версия: git tag v0.1.0 && git push origin v0.1.0
+# Новая версия: поднять CFBundleShortVersionString в Info.plist и запушить в ветку release
+# (git push origin main:release), либо поставить тег v0.1.1, либо Actions → Run workflow.
 on:
   push:
+    branches: [release]
     tags: ['v*']
   workflow_dispatch:
     inputs:
@@ -22,7 +24,9 @@ jobs:
       - name: Version
         id: v
         run: |
-          if [ -n "${{ github.event.inputs.version }}" ]; then V="${{ github.event.inputs.version }}"; else V="${GITHUB_REF_NAME#v}"; fi
+          if [ -n "${{ github.event.inputs.version }}" ]; then V="${{ github.event.inputs.version }}"
+          elif [ "${GITHUB_REF_TYPE}" = "tag" ]; then V="${GITHUB_REF_NAME#v}"
+          else V=$(plutil -extract CFBundleShortVersionString raw Info.plist); fi
           echo "version=$V" >> "$GITHUB_OUTPUT"
 
       - name: Build
@@ -34,5 +38,5 @@ jobs:
         run: |
           V="${{ steps.v.outputs.version }}"
           gh release create "v$V" dist/Notchling-$V.zip dist/Notchling-$V.zip.sha256 \
-            --title "Notchling $V" --notes-file RELEASE_NOTES.md \
+            --target "$GITHUB_SHA" --title "Notchling $V" --notes-file RELEASE_NOTES.md \
             || gh release upload "v$V" dist/Notchling-$V.zip dist/Notchling-$V.zip.sha256 --clobber
